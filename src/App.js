@@ -172,7 +172,7 @@ function App() {
       <div>
         {!state.expression ? <button className="btn btn-primary customButton" onClick={() => generateExpression()}>Start</button> : <label className="expressionLabel customButton">{state.expression[0]} {state.expression[1]} {state.expression[2]}</label> }
       </div>
-      <input ref={inputRef} type="text" disabled={state.inputState} className="inputField" value={state.input} onChange={(e) => validateInput(e)}/>
+      <input ref={inputRef} inputMode="numeric" type="text" disabled={state.inputState} className="inputField" value={state.input} onChange={(e) => validateInput(e)}/>
       <br />
       <button onClick={() => resetGame()} className="customButton btn btn-danger">Reset</button>
       {state.questions && state.questions.map(expression => <p key={state.questions.indexOf(expression)}>{expression}</p>)}

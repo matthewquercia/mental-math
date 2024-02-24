@@ -53,13 +53,35 @@ function App() {
     if(state.operations.length === 0){
       setState({error: "Select at least one operation"});
       return;
-    } 
+    }
+
+    let minNum1,maxNum1,minNum2,maxNum2;
 
     let ops = state.operations;
-    let min = Math.ceil(1);
-    let max = Math.floor(state.number1 * 9);
-    let num1 = Math.floor(Math.random() * (max - min + 1) + min);
-    let num2 = Math.floor(Math.random() * (max - min + 1) + min);
+    if(state.number1 === 1){
+      minNum1 = 1
+      maxNum1 = 9
+    } else if(state.number1 === 2){
+      minNum1 = 10
+      maxNum1 = 99
+    } else if(state.number1 === 3){
+      minNum1 = 100
+      maxNum1 = 999
+    }
+
+    if(state.number2 === 1){
+      minNum2 = 1
+      maxNum2 = 9
+    } else if(state.number2 === 2){
+      minNum2 = 10
+      maxNum2 = 99
+    } else if(state.number2 === 3){
+      minNum2 = 100
+      maxNum2 = 999
+    }
+
+    let num1 = Math.floor(Math.random() * (maxNum1 - minNum1 + 1) + minNum1);
+    let num2 = Math.floor(Math.random() * (maxNum2 - minNum2 + 1) + minNum2);
     let operation = ops[Math.floor(Math.random() * ops.length)];
 
     if(operation === '/'){
@@ -124,8 +146,8 @@ function App() {
         {state.expression ? <meter min="0" max={state.numberOfQuestions} low="0" value={state.currentQuestion}/> : 
         <div>
           <div className="controls">
-            <select value={state.number1} onChange={(e) => setState({number1: parseInt(e.target.value)})}>
-              <option value="1" disabled selected>Digits</option>
+          <select value={state.number1} onChange={(e) => setState({number1: parseInt(e.target.value)})}>
+              <option value="0" disabled selected>Digits</option>
               <option value="1" >1</option>
               <option value="2" >2</option>
               <option value="3" >3</option>
@@ -137,7 +159,7 @@ function App() {
                 <label className="OpLabel">/</label><input className="OpLabel form-check-input" type="checkbox" checked={state.checkStateDivide} value="/" onChange={(e) => addRemoveOperations(e)}/>
               </div>
             <select value={state.number2} onChange={(e) => setState({number2: parseInt(e.target.value)})}>
-              <option value="1" disabled selected>Digits</option>
+              <option value="0" disabled selected>Digits</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>

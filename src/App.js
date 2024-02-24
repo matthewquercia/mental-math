@@ -9,10 +9,18 @@ function App() {
     {
       expression: null,
       input: "",
-      numberOfQuestion: 5,
+      numberOfQuestions: 5,
       currentQuestion: 0,
       inputState: "disabled",
-      questions: []
+      questions: [],
+      number1: 1,
+      number2: 1,
+      operations: ['+','-','x','/'],
+      error: null,
+      checkStatePlus: true,
+      checkStateMinus: true,
+      checkStateMultiply: true,
+      checkStateDivide: true,
     }
   )
 
@@ -22,12 +30,36 @@ function App() {
 
   useEffect(() => {
     inputRef.current.focus(); //focuses the input once the game is started
-  }, [state.inputState]) 
+  }, [state.inputState])
+
+  const addRemoveOperations = (e) => {
+    let arr = state.operations
+    if(e.target.checked){
+      arr.push(e.target.value);
+      if(e.target.value === '+') setState({operations: arr, checkStatePlus: true});
+      if(e.target.value === '-') setState({operations: arr, checkStateMinus: true});
+      if(e.target.value === 'x') setState({operations: arr, checkStateMultiply: true});
+      if(e.target.value === '/') setState({operations: arr, checkStateDivide: true});
+    } else {
+      arr.splice(arr.indexOf(e.target.value), 1);
+      if(e.target.value === '+') setState({operations: arr, checkStatePlus: false});
+      if(e.target.value === '-') setState({operations: arr, checkStateMinus: false});
+      if(e.target.value === 'x') setState({operations: arr, checkStateMultiply: false});
+      if(e.target.value === '/') setState({operations: arr, checkStateDivide: false});
+    }
+  }
 
   const generateExpression = () => {
-    let ops = ['+', '-', "x", '/'];
-    let num1 = Math.floor(Math.random() * (12) + 1);
-    let num2 = Math.floor(Math.random() * (12) + 1);
+    if(state.operations.length === 0){
+      setState({error: "Select at least one operation"});
+      return;
+    } 
+
+    let ops = state.operations;
+    let min = Math.ceil(1);
+    let max = Math.floor(state.number1 * 9);
+    let num1 = Math.floor(Math.random() * (max - min + 1) + min);
+    let num2 = Math.floor(Math.random() * (max - min + 1) + min);
     let operation = ops[Math.floor(Math.random() * ops.length)];
 
     if(operation === '/'){
@@ -54,7 +86,7 @@ function App() {
         setState({input: "", currentQuestion: state.currentQuestion += 1, questions: [...state.questions, `${state.expression[0]} ${state.expression[1]} ${state.expression[2]} = ${ans}`]});
       }
 
-      if(state.currentQuestion === state.numberOfQuestion){
+      if(state.currentQuestion === state.numberOfQuestions){
         resetGame();
       }
     }
@@ -65,24 +97,58 @@ function App() {
   }
 
   const resetGame = () => {
+    //window.location.reload();
     setState({
       expression: null, 
       input: "", 
-      numberOfQuestion: 10, 
+      numberOfQuestions: 5, 
       currentQuestion: 0, 
       inputState: "disabled",
-      questions: []
+      questions: [],
+      number1: 1,
+      number2: 1,
+      operations: ['+','-','x','/'],
+      error: null,
+      checkStatePlus: true,
+      checkStateMinus: true,
+      checkStateMultiply: true,
+      checkStateDivide: true,
     });
   }
 
   return (
     <div className="container">
       <h1>Mental Math Trainer</h1>
+      {state.error && <p>{state.error}</p>}
       <div>
-        {state.expression && <meter min="0" max={state.numberOfQuestion} low="0" value={state.currentQuestion}/>}
+        {state.expression ? <meter min="0" max={state.numberOfQuestions} low="0" value={state.currentQuestion}/> : 
+        <div>
+          <div className="controls">
+            <select value={state.number1} onChange={(e) => setState({number1: parseInt(e.target.value)})}>
+              <option value="1" disabled selected>Digits</option>
+              <option value="1" >1</option>
+              <option value="2" >2</option>
+              <option value="3" >3</option>
+            </select>
+              <div className="OpDiv">
+                <label className="OpLabel">+</label><input className="OpLabel form-check-input" type="checkbox" checked={state.checkStatePlus} value="+" onChange={(e) => addRemoveOperations(e)}/>
+                <label className="OpLabel">-</label><input className="OpLabel form-check-input" type="checkbox" checked={state.checkStateMinus} value="-" onChange={(e) => addRemoveOperations(e)}/>
+                <label className="OpLabel">x</label><input className="OpLabel form-check-input" type="checkbox" checked={state.checkStateMultiply} value="x" onChange={(e) => addRemoveOperations(e)}/>
+                <label className="OpLabel">/</label><input className="OpLabel form-check-input" type="checkbox" checked={state.checkStateDivide} value="/" onChange={(e) => addRemoveOperations(e)}/>
+              </div>
+            <select value={state.number2} onChange={(e) => setState({number2: parseInt(e.target.value)})}>
+              <option value="1" disabled selected>Digits</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <label className="OpLabel">Amt of problems:</label><input style={{width: 110, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" placeholder="Problems" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
+        </div>
+      }
       </div>
-      <div className="customButton">
-        {!state.expression ? <button className="btn btn-primary" onClick={() => generateExpression()}>Start</button> : <label>{state.expression[0]} {state.expression[1]} {state.expression[2]}</label> }
+      <div>
+        {!state.expression ? <button className="btn btn-primary customButton" onClick={() => generateExpression()}>Start</button> : <label className="expressionLabel customButton">{state.expression[0]} {state.expression[1]} {state.expression[2]}</label> }
       </div>
       <input ref={inputRef} type="text" disabled={state.inputState} className="inputField" value={state.input} onChange={(e) => validateInput(e)}/>
       <br />

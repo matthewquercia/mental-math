@@ -1,11 +1,10 @@
 .container {
-    container: flex;
     text-align: center;
-    margin-top: 2%;
+    margin-top: 10%;
 }
 
 .customButton {
-    margin: 5% 0% 5% 0%;
+    margin: 30px 0 30px 0;
     text-align: center;
 }
 
@@ -20,7 +19,7 @@
     height: 65px;
 }
 
-label {
+.expressionLabel {
     font-weight: 1000;
     font-size:xx-large;
 }
@@ -32,4 +31,28 @@ meter {
 
 meter::-webkit-meter-optimum-value {
     background: rgb(32, 84, 255);
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.OpLabel {
+    margin: 0 5px 0 0;
+    font-weight: 700;
+    font-size: medium;
+}
+
+.OpDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 5px 0 5px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0 2px 0 2px;
 }

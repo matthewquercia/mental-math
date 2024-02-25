@@ -165,7 +165,7 @@ function App() {
               <option value="3">3</option>
             </select>
           </div>
-          <label className="OpLabel">Amt of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" placeholder="Problems" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
+          <label className="OpLabel">Amt of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
         </div>
       }
       </div>

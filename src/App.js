@@ -12,7 +12,6 @@ function App() {
       numberOfQuestions: 5,
       currentQuestion: 0,
       inputState: "disabled",
-      questions: [],
       number1: 1,
       number2: 1,
       operations: ['+','-','x','/'],
@@ -56,29 +55,14 @@ function App() {
     }
 
     let minNum1,maxNum1,minNum2,maxNum2;
-
     let ops = state.operations;
-    if(state.number1 === 1){
-      minNum1 = 1
-      maxNum1 = 9
-    } else if(state.number1 === 2){
-      minNum1 = 10
-      maxNum1 = 99
-    } else if(state.number1 === 3){
-      minNum1 = 100
-      maxNum1 = 999
-    }
+    let minArr = [1,0,0];
+    let maxArr = [9,9,9];
 
-    if(state.number2 === 1){
-      minNum2 = 1
-      maxNum2 = 9
-    } else if(state.number2 === 2){
-      minNum2 = 10
-      maxNum2 = 99
-    } else if(state.number2 === 3){
-      minNum2 = 100
-      maxNum2 = 999
-    }
+    minNum1 = parseInt(minArr.slice(0, state.number1).join(''));
+    maxNum1 = parseInt(maxArr.slice(0, state.number1).join(''));
+    minNum2 = parseInt(minArr.slice(0, state.number2).join(''));
+    maxNum2 = parseInt(maxArr.slice(0, state.number2).join(''));
 
     let num1 = Math.floor(Math.random() * (maxNum1 - minNum1 + 1) + minNum1);
     let num2 = Math.floor(Math.random() * (maxNum2 - minNum2 + 1) + minNum2);
@@ -105,7 +89,7 @@ function App() {
 
       if(ans === parseInt(state.input)){
         generateExpression();
-        setState({input: "", currentQuestion: state.currentQuestion += 1, questions: [...state.questions, `${state.expression[0]} ${state.expression[1]} ${state.expression[2]} = ${ans}`]});
+        setState({input: "", currentQuestion: state.currentQuestion += 1});
       }
 
       if(state.currentQuestion === state.numberOfQuestions){
@@ -119,14 +103,12 @@ function App() {
   }
 
   const resetGame = () => {
-    //window.location.reload();
     setState({
       expression: null, 
       input: "", 
       numberOfQuestions: 5, 
       currentQuestion: 0, 
       inputState: "disabled",
-      questions: [],
       number1: 1,
       number2: 1,
       operations: ['+','-','x','/'],
@@ -144,7 +126,7 @@ function App() {
       {state.error && <p>{state.error}</p>}
       <div>
         {state.expression ? <meter min="0" max={state.numberOfQuestions} low="0" value={state.currentQuestion}/> : 
-        <div>
+        <div className="controlDiv">
           <div className="controls">
           <select value={state.number1} onChange={(e) => setState({number1: parseInt(e.target.value)})}>
               <option value="0" disabled selected>Digits</option>
@@ -165,7 +147,7 @@ function App() {
               <option value="3">3</option>
             </select>
           </div>
-          <label className="OpLabel">Amt of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
+          <label className="OpLabel">Number of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
         </div>
       }
       </div>
@@ -175,7 +157,6 @@ function App() {
       <input ref={inputRef} inputMode="numeric" type="text" disabled={state.inputState} className="inputField" value={state.input} onChange={(e) => validateInput(e)}/>
       <br />
       <button onClick={() => resetGame()} className="customButton btn btn-danger">Reset</button>
-      {state.questions && state.questions.map(expression => <p key={state.questions.indexOf(expression)}>{expression}</p>)}
     </div>
   );
 }

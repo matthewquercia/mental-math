@@ -38,7 +38,6 @@ meter::-webkit-meter-optimum-value {
     flex-direction: row;
     justify-content: center;
     margin: auto;
-    margin-top: 20px;
 }
 
 .OpLabel {
@@ -55,4 +54,13 @@ meter::-webkit-meter-optimum-value {
     border-style: solid;
     border-width: 1px;
     margin: 0 2px 0 2px;
+}
+
+.controlDiv {
+    border-style: solid;
+    border-radius: 30px;
+    border-width: 1px;
+    width: 370px;
+    margin: auto;
+    padding: 10px 5px 10px 5px;
 }

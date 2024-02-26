@@ -20,6 +20,8 @@ function App() {
       checkStateMinus: true,
       checkStateMultiply: true,
       checkStateDivide: true,
+      elapsedTime: null,
+      roundOver: false
     }
   )
 
@@ -76,7 +78,11 @@ function App() {
 
     let arr = num1 > num2 ? [num1, operation, num2] : [num2, operation, num1];
 
-    setState({expression: arr, inputState: ""});
+    if(state.elapsedTime){
+      setState({expression: arr, inputState: ""});
+    } else {
+      setState({expression: arr, inputState: "", elapsedTime: new Date().getTime()});
+    }
   }
 
   const validateAnswer = () => {
@@ -93,7 +99,7 @@ function App() {
       }
 
       if(state.currentQuestion === state.numberOfQuestions){
-        resetGame();
+        setState({roundOver: true, inputState: "disabled"});
       }
     }
   }
@@ -117,6 +123,8 @@ function App() {
       checkStateMinus: true,
       checkStateMultiply: true,
       checkStateDivide: true,
+      elapsedTime: null,
+      roundOver: false
     });
   }
 
@@ -147,17 +155,20 @@ function App() {
               <option value="3">3</option>
             </select>
           </div>
-          <label className="OpLabel">Number of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} type="number" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
+          <label className="OpLabel">Number of problems:</label><input style={{width: 50, textAlign: 'center', marginTop: 2}} value={state.numberOfQuestions} min="1" type="number" onChange={(e) => setState({numberOfQuestions: parseInt(e.target.value)})}/>
         </div>
       }
       </div>
       <div>
-        {!state.expression ? <button className="btn btn-primary customButton" onClick={() => generateExpression()}>Start</button> : <label className="expressionLabel customButton">{state.expression[0]} {state.expression[1]} {state.expression[2]}</label> }
+        {state.roundOver ? <p style={{fontWeight: "700", fontSize: "medium"}}>Elapsed time in seconds: {(new Date().getTime() - parseInt(state.elapsedTime)) / 1000}</p> : 
+        <div>
+          {!state.expression ? <button className="btn btn-primary customButton" onClick={() => generateExpression()}>Start</button> : <label className="expressionLabel customButton">{state.expression[0]} {state.expression[1]} {state.expression[2]}</label> }      
+        </div>}
       </div>
       <input ref={inputRef} inputMode="numeric" type="text" disabled={state.inputState} className="inputField" value={state.input} onChange={(e) => validateInput(e)}/>
       <br />
       <button onClick={() => resetGame()} className="customButton btn btn-danger">Reset</button>
-    </div>
+      </div>
   );
 }
 

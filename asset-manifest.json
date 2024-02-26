@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/mental-math/static/css/main.66fa09f5.css",
-    "main.js": "/mental-math/static/js/main.9bbb18f4.js",
+    "main.js": "/mental-math/static/js/main.8ca76d7f.js",
     "index.html": "/mental-math/index.html",
     "main.66fa09f5.css.map": "/mental-math/static/css/main.66fa09f5.css.map",
-    "main.9bbb18f4.js.map": "/mental-math/static/js/main.9bbb18f4.js.map"
+    "main.8ca76d7f.js.map": "/mental-math/static/js/main.8ca76d7f.js.map"
   },
   "entrypoints": [
     "static/css/main.66fa09f5.css",
-    "static/js/main.9bbb18f4.js"
+    "static/js/main.8ca76d7f.js"
   ]
 }
